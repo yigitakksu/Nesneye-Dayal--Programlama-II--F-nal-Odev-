@@ -1,0 +1,144 @@
+import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+public class Uygulama extends Application {
+
+    // Ders Class
+    public static class Ders {
+        String dersKodu;
+        String dersAd;
+        String dersDonem;
+        String ogretimGorevlisi;
+
+        // Getter ve setter metotları
+
+        // Ders nesnesini JSON'a dönüştüren metot
+        public String toJson() throws IOException {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.writeValueAsString(this);
+        }
+    }
+
+    // Ogrenci Class
+    public static class Ogrenci {
+        int ogrenciNo;
+        String ogrenciAd;
+        String ogrenciSoyad;
+        String ogrenciBolum;
+        String ogrenciDersler;
+
+        // Getter ve setter metotları
+
+        // Ogrenci nesnesini JSON'a dönüştüren metot
+        public String toJson() throws IOException {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.writeValueAsString(this);
+        }
+    }
+
+    // OgretimGorevlisi Class
+    public static class OgretimGorevlisi {
+        int ogretmenNo;
+        String ad;
+        String soyad;
+        String bolum;
+        String verdigiDersler;
+
+        // Getter ve setter metotları
+
+        // OgretimGorevlisi nesnesini JSON'a dönüştüren metot
+        public String toJson() throws IOException {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.writeValueAsString(this);
+        }
+    }
+
+    // Verilerin depolandığı listeler
+    private ObservableList<Ders> dersList = FXCollections.observableArrayList();
+    private ObservableList<Ogrenci> ogrenciList = FXCollections.observableArrayList();
+    private ObservableList<OgretimGorevlisi> ogretimGorevlisiList = FXCollections.observableArrayList();
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Java Windows Form Uygulaması");
+
+        TabPane tabPane = new TabPane();
+        tabPane.getTabs().addAll(createMenuTab(), createDersTab(), createOgrenciTab(), createOgretimGorevlisiTab());
+
+        Scene scene = new Scene(tabPane, 800, 600);
+        primaryStage.setScene(scene);
+
+        primaryStage.show();
+    }
+
+    private Tab createMenuTab() {
+        Tab tab = new Tab("Menü");
+        // Menü formu içeriği buraya eklenecek
+        return tab;
+    }
+
+    private Tab createDersTab() {
+        Tab tab = new Tab("Ders Formu");
+        // Ders formu içeriği buraya eklenecek
+        return tab;
+    }
+
+    private Tab createOgrenciTab() {
+        Tab tab = new Tab("Öğrenci Formu");
+        // Öğrenci formu içeriği buraya eklenecek
+        return tab;
+    }
+
+    private Tab createOgretimGorevlisiTab() {
+        Tab tab = new Tab("Öğretim Görevlisi Formu");
+        // Öğretim görevlisi formu içeriği buraya eklenecek
+        return tab;
+    }
+
+    // Ders eklemek için kullanılan metot
+    private void addDers(Ders ders) {
+        dersList.add(ders);
+    }
+
+    // Ogrenci eklemek için kullanılan metot
+    private void addOgrenci(Ogrenci ogrenci) {
+        ogrenciList.add(ogrenci);
+    }
+
+    // OgretimGorevlisi eklemek için kullanılan metot
+    private void addOgretimGorevlisi(OgretimGorevlisi ogretimGorevlisi) {
+        ogretimGorevlisiList.add(ogretimGorevlisi);
+    }
+
+    // Ders listesini JSON dosyasına kaydetmek için kullanılan metot
+    private void saveDersListToJson() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.writeValue(new File("dersList.json"), dersList);
+    }
+
+    // Ogrenci listesini JSON dosyasına kaydetmek için kullanılan metot
+    private void saveOgrenciListToJson() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.writeValue(new File("ogrenciList.json"), ogrenciList);
+    }
+
+    // OgretimGorevlisi listesini JSON dosyasına kaydetmek için kullanılan metot
+    private void saveOgretimGorevlisiListToJson() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.writeValue(new File("ogretimGorevlisiList.json"), ogretimGorevlisiList);
+    }
+}
